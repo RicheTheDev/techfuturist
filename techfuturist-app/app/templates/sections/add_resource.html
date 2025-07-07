@@ -1,0 +1,105 @@
+<!-- Formulaire d'ajout/édition de ressource -->
+<div class="max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden p-6">
+
+    <!-- Messages d'erreur Flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="mb-4 space-y-2">
+                {% for category, message in messages %}
+                    {% if category == 'error' %}
+                        <div class="px-4 py-3 bg-red-100 text-red-800 rounded-lg border border-red-200 text-sm">
+                            {{ message }}
+                        </div>
+                    {% elif category == 'success' %}
+                        <div class="px-4 py-3 bg-green-100 text-green-800 rounded-lg border border-green-200 text-sm">
+                            {{ message }}
+                        </div>
+                    {% else %}
+                        <div class="px-4 py-3 bg-gray-100 text-gray-800 rounded-lg border border-gray-200 text-sm">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">
+        {{ 'Ajouter une nouvelle ressource' if not resource else 'Modifier la ressource' }}
+    </h2>
+
+    <form method="POST" 
+          action="{{ url_for('resources.create') if not resource else url_for('resources.edit', resource_id=resource.id) }}" 
+          enctype="multipart/form-data" 
+          class="space-y-6">
+
+        <!-- Champ Titre -->
+        <div>
+            <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Titre *</label>
+            <input type="text" id="title" name="title"
+                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                   placeholder="Titre de la ressource"
+                   value="{{ request.form.title if request.form.title else (resource.title if resource else '') }}">
+        </div>
+
+        <!-- Champ Description -->
+        <div>
+            <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description / Niveau</label>
+            <textarea id="description" name="description" rows="4"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                      placeholder="Description détaillée de la ressource">{{ request.form.description if request.form.description else (resource.description if resource else '') }}</textarea>
+        </div>
+
+        <!-- Champ Type de fichier -->
+        <div>
+            <label for="file_type" class="block text-sm font-medium text-gray-700 mb-1">Type de ressource *</label>
+            <select id="file_type" name="file_type" 
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                <option value="">Sélectionnez un type</option>
+                {% for type in ['pdf', 'video', 'lien', 'presentation', 'exercice', 'code', 'archive'] %}
+                    <option value="{{ type }}"
+                        {% if (request.form.file_type == type) or (resource and resource.file_type == type and not request.form.file_type) %}selected{% endif %}>
+                        {{ type | capitalize }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Champ Fichier -->
+        <div>
+            <label for="file" class="block text-sm font-medium text-gray-700 mb-1">
+                Fichier {% if not resource %}*{% else %}(optionnel pour conserver l'actuel){% endif %}
+            </label>
+            <div class="mt-1 flex items-center">
+                <input type="file" id="file" name="file" {% if not resource %}required{% endif %}
+                       class="block w-full text-sm text-gray-500
+                              file:mr-4 file:py-2 file:px-4
+                              file:rounded-lg file:border-0
+                              file:text-sm file:font-semibold
+                              file:bg-indigo-50 file:text-indigo-700
+                              hover:file:bg-indigo-100">
+            </div>
+            <p class="mt-1 text-sm text-gray-500">Formats acceptés: PDF, MP4, ZIP, etc.</p>
+            {% if resource and resource.file_url %}
+                <p class="mt-1 text-sm text-gray-500">
+                    Fichier actuel :
+                    <a href="{{ url_for('static', filename='uploads/' + resource.file_url) }}" target="_blank" class="text-indigo-600 underline">
+                        {{ resource.file_url }}
+                    </a>
+                </p>
+            {% endif %}
+        </div>
+
+        <!-- Boutons -->
+        <div class="flex justify-end space-x-4 pt-4">
+            <a href="{{ url_for('resources.index') }}" 
+               class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition duration-200">
+                Annuler
+            </a>
+            <button type="submit" 
+                    class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition duration-200">
+                {{ 'Enregistrer la ressource' if not resource else 'Mettre à jour la ressource' }}
+            </button>
+        </div>
+    </form>
+</div>

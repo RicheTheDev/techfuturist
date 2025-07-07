@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin TechFuturists - Gestion Rapports de stages</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Admin.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+</head>
+<body class="bg-gray-50 font-sans">
+    <div id="sidebarOverlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"></div>
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        {% include 'partials/sidebar.html' %}
+
+        <!-- Main Content -->
+        <div id="mainContent" class="flex-1 flex flex-col overflow-hidden lg:ml-64 transition-all duration-300 ease-in-out">
+            <!-- Top Navigation -->
+            {% include 'partials/reports/header.html' %}
+
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-4 sm:p-6 bg-gray-50">
+                <!-- Welcome Banner with Quick Actions -->
+                <!-- {% include 'sections/reports/welcome_banner.html' %} -->
+
+                <!-- Stats Cards -->
+                {% include 'sections/reports/stats_cards.html' %}
+
+                <!-- Filters and Search -->
+                <!-- {% include 'sections/filters.html' %} -->
+
+                <!-- Resources Grid View -->
+                {% include 'sections/reports/reports_grid.html' %}
+
+                <!-- Pagination -->
+                {% include 'partials/pagination.html' %}
+            </main>
+        </div>
+    </div>
+    <script src=" {{ url_for('static', filename='js/ScriptAdmin.js') }}"></script>
+</body>
+</html>
+
+<script>
+function confirmDelete(reportId, reportTitle) {
+    Swal.fire({
+        title: 'Confirmer la suppression',
+        text: `Voulez-vous vraiment supprimer "${reportTitle}" ?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Oui, supprimer',
+        cancelButtonText: 'Annuler'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.getElementById(`delete-form-${reportId}`).submit();
+        }
+    });
+}
+</script>

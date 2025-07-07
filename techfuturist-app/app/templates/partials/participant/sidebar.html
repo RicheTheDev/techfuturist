@@ -1,0 +1,138 @@
+<body>
+    <div id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-indigo-800 text-white transition-all duration-300 ease-in-out shadow-lg lg:transform-none">
+        <div class="flex flex-col h-full">
+            <!-- Logo -->
+            <div class="flex items-center justify-between p-4 border-b border-indigo-700">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-graduation-cap text-2xl"></i>
+                    <span class="logo-text text-xl font-bold">TechFuturists</span>
+                </div>
+                <button id="toggleSidebar" class="text-white focus:outline-none lg:hidden">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- User Profile -->
+            <div class="user-info p-4 flex items-center space-x-3 border-b border-indigo-700">
+                <div class="relative">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Profile" class="w-10 h-10 rounded-full border-2 border-white">
+                    <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></span>
+                </div>
+                <div>
+                    <div class="font-medium text-white">{{ user.first_name }} {{ user.last_name }}</div>
+                    <div class="text-xs text-indigo-200">{{ user.role.value }}</div>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <nav class="flex-1 overflow-y-auto py-4">
+                <div class="space-y-1 px-2">
+                    <a href="{{ url_for('participant.dashboard') }}" 
+                       class="flex items-center space-x-3 px-4 py-3 rounded-lg {% if request.endpoint == 'participant.dashboard' %}bg-indigo-700 text-white{% else %}text-indigo-100 hover:bg-indigo-700 hover:text-white{% endif %} transition">
+                        <i class="fas fa-home {% if request.endpoint == 'participant.dashboard' %}text-white{% else %}text-indigo-200{% endif %}"></i>
+                        <span class="nav-text">Tableau de bord</span>
+                    </a>
+                    
+                    <a href="{{ url_for('resources.participant') }}" 
+                       class="flex items-center space-x-3 px-4 py-3 rounded-lg {% if request.endpoint == 'resources.participant' %}bg-indigo-700 text-white{% else %}text-indigo-100 hover:bg-indigo-700 hover:text-white{% endif %} transition">
+                        <i class="fas fa-book {% if request.endpoint == 'resources.participant' %}text-white{% else %}text-indigo-200{% endif %}"></i>
+                        <span class="nav-text">Mes ressources</span>
+                    </a>
+                    
+                    <a href="{{ url_for('reports.participant') }}" 
+                       class="flex items-center space-x-3 px-4 py-3 rounded-lg {% if request.endpoint == 'reports.participant' %}bg-indigo-700 text-white{% else %}text-indigo-100 hover:bg-indigo-700 hover:text-white{% endif %} transition">
+                        <i class="fas fa-file-alt {% if request.endpoint == 'reports.participant' %}text-white{% else %}text-indigo-200{% endif %}"></i>
+                        <span class="nav-text">Mes rapports</span>
+                    </a>
+                    
+                    <a href="#" 
+                       class="flex items-center space-x-3 px-4 py-3 rounded-lg {% if request.endpoint == 'calendar.participant' %}bg-indigo-700 text-white{% else %}text-indigo-100 hover:bg-indigo-700 hover:text-white{% endif %} transition">
+                        <i class="fas fa-calendar-alt {% if request.endpoint == 'calendar.participant' %}text-white{% else %}text-indigo-200{% endif %}"></i>
+                        <span class="nav-text">Calendrier</span>
+                        <span class="ml-auto bg-red-500 text-xs px-2 py-0.5 rounded-full">3</span>
+                    </a>
+                    
+                    <a href="#" 
+                       class="flex items-center space-x-3 px-4 py-3 rounded-lg {% if request.endpoint == 'tasks.participant' %}bg-indigo-700 text-white{% else %}text-indigo-100 hover:bg-indigo-700 hover:text-white{% endif %} transition">
+                        <i class="fas fa-tasks {% if request.endpoint == 'tasks.participant' %}text-white{% else %}text-indigo-200{% endif %}"></i>
+                        <span class="nav-text">Tâches</span>
+                    </a>
+                    
+                    <a href="#"
+                       class="flex items-center space-x-3 px-4 py-3 rounded-lg {% if request.endpoint == 'progress.participant' %}bg-indigo-700 text-white{% else %}text-indigo-100 hover:bg-indigo-700 hover:text-white{% endif %} transition">
+                        <i class="fas fa-chart-line {% if request.endpoint == 'progress.participant' %}text-white{% else %}text-indigo-200{% endif %}"></i>
+                        <span class="nav-text">Progression</span>
+                    </a>
+                    
+                    <a href="#"
+                       class="flex items-center space-x-3 px-4 py-3 rounded-lg {% if request.endpoint == 'certificates.participant' %}bg-indigo-700 text-white{% else %}text-indigo-100 hover:bg-indigo-700 hover:text-white{% endif %} transition">
+                        <i class="fas fa-certificate {% if request.endpoint == 'certificates.participant' %}text-white{% else %}text-indigo-200{% endif %}"></i>
+                        <span class="nav-text">Certificats</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <!-- Bottom Section -->
+            <div class="p-4 border-t border-indigo-700">
+                <a href="#" 
+                   class="flex items-center space-x-3 px-4 py-3 rounded-lg {% if request.endpoint == 'settings.participant' %}bg-indigo-700 text-white{% else %}text-indigo-100 hover:bg-indigo-700 hover:text-white{% endif %} transition">
+                    <i class="fas fa-cog {% if request.endpoint == 'settings.participant' %}text-white{% else %}text-indigo-200{% endif %}"></i>
+                    <span class="nav-text">Paramètres</span>
+                </a>
+                
+                <a href="#"
+                   id="logoutButton"
+                   class="flex items-center space-x-3 px-4 py-3 rounded-lg text-indigo-100 hover:bg-indigo-700 hover:text-white transition">
+                    <i class="fas fa-sign-out-alt text-indigo-200"></i>
+                    <span class="nav-text">Déconnexion</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Script pour le toggle de la sidebar -->
+    <script>
+    document.getElementById('toggleSidebar').addEventListener('click', function() {
+        document.getElementById('sidebar').classList.toggle('hidden');
+    });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+    document.getElementById('logoutButton').addEventListener('click', function(event) {
+        event.preventDefault();
+        Swal.fire({
+            title: 'Déconnexion',
+            text: 'Voulez-vous vraiment vous déconnecter ?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Oui, se déconnecter',
+            cancelButtonText: 'Annuler'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch("{{ url_for('auth.logout') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'  // si CSRF ou XHR checks
+                    },
+                    credentials: 'include'  // important si tu utilises Flask-Login
+                })
+                .then(response => {
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    } else if (response.ok) {
+                        window.location.reload();
+                    } else {
+                        Swal.fire('Erreur', 'Impossible de se déconnecter.', 'error');
+                    }
+                })
+                .catch(error => {
+                    Swal.fire('Erreur', 'Erreur réseau lors de la déconnexion.', 'error');
+                });
+            }
+        });
+    });
+    </script>    
+    </body>

@@ -1,0 +1,208 @@
+
+    <!-- En-tête des ressources -->
+    <div class="bg-gradient-to-r from-indigo-600 to-blue-600 rounded-xl p-4 sm:p-6 text-white mb-6 shadow-lg">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+            <div class="mb-4 md:mb-0">
+                <h2 class="text-xl sm:text-2xl font-bold mb-2">Ressources Pédagogiques</h2>
+                <p class="opacity-90 text-sm sm:text-base">Gérez et organisez toutes les ressources.</p>
+            </div>
+            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+                <button class="bg-indigo-800 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-700 transition flex items-center justify-center">
+                    <i class="fas fa-file-export mr-2"></i> Exporter
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistiques des ressources -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <div class="bg-white rounded-xl shadow p-4 sm:p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Ressources totales</p>
+                    <h3 class="text-xl sm:text-2xl font-bold mt-1">42</h3>
+                </div>
+                <div class="p-3 rounded-full bg-indigo-100 text-indigo-600">
+                    <i class="fas fa-archive text-xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow p-4 sm:p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Consultées ce mois</p>
+                    <h3 class="text-xl sm:text-2xl font-bold mt-1">18</h3>
+                </div>
+                <div class="p-3 rounded-full bg-green-100 text-green-600">
+                    <i class="fas fa-eye text-xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow p-4 sm:p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Favoris</p>
+                    <h3 class="text-xl sm:text-2xl font-bold mt-1">9</h3>
+                </div>
+                <div class="p-3 rounded-full bg-yellow-100 text-yellow-600">
+                    <i class="fas fa-star text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filtres et recherche -->
+    <div class="bg-white rounded-xl shadow p-4 sm:p-6 mb-6">
+        <div class="filters-container flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+            <div class="relative w-full md:w-64">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <i class="fas fa-search text-gray-400"></i>
+                </div>
+                <input type="text" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" placeholder="Rechercher ressources...">
+            </div>
+            
+            <div class="filters-actions flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+                <select class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option>Tous les statuts</option>
+                    <option>Publié</option>
+                    <option>Brouillon</option>
+                    <option>Archivé</option>
+                </select>
+                
+                <select class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option>Tous les types</option>
+                    <option>Document PDF</option>
+                    <option>Vidéo</option>
+                    <option>Présentation</option>
+                    <option>Lien externe</option>
+                    <option>Exercice</option>
+                </select>
+                <button class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-700 transition flex items-center justify-center">
+                    <i class="fas fa-filter mr-2"></i> Filtrer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Toggle -->
+<div class="flex justify-between items-center mb-4">
+    <h3 class="text-lg font-bold text-gray-800">Toutes les ressources</h3>
+    <div class="flex space-x-2">
+        <button id="listViewBtn" class="p-2 rounded-lg bg-indigo-100 text-indigo-600">
+            <i class="fas fa-list"></i>
+        </button>
+        <button id="gridViewBtn" class="p-2 rounded-lg bg-gray-200 text-gray-600">
+            <i class="fas fa-th-large"></i>
+        </button>
+    </div>
+</div>
+<!-- Resources Grid View -->
+<div id="gridView" class="resources-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">
+    {% for resource in resources %}
+    <div class="resource-card bg-white rounded-xl shadow overflow-hidden border border-gray-200 transition duration-300 ease-in-out">
+        <div class="p-4 sm:p-6">
+            <div class="flex items-start space-x-4">
+                <div class="resource-type-icon 
+                    {% if resource.file_type == 'PDF' %}bg-indigo-100 text-indigo-600
+                    {% elif resource.file_type == 'Vidéo' %}bg-blue-100 text-blue-600
+                    {% elif resource.file_type == 'Lien' %}bg-green-100 text-green-600
+                    {% elif resource.file_type == 'Présentation' %}bg-purple-100 text-purple-600
+                    {% elif resource.file_type == 'Exercice' %}bg-yellow-100 text-yellow-600
+                    {% else %}bg-red-100 text-red-600{% endif %}">
+                    <i class="fas 
+                        {% if resource.file_type == 'PDF' %}fa-file-pdf
+                        {% elif resource.file_type == 'Vidéo' %}fa-video
+                        {% elif resource.file_type == 'Lien' %}fa-link
+                        {% elif resource.file_type == 'Présentation' %}fa-file-powerpoint
+                        {% elif resource.file_type == 'Exercice' %}fa-tasks
+                        {% else %}fa-file-code{% endif %} text-xl"></i>
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-lg font-bold text-gray-800 mb-1">{{ resource.title }}</h3>
+                    <p class="text-sm text-gray-500 mb-2">
+                      Par M. {{ resource.user.first_name or '' }} {{ resource.user.last_name or '' }}
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="px-2 py-1 rounded-full text-xs 
+                            {% if resource.file_type == 'PDF' %}bg-indigo-100 text-indigo-800
+                            {% elif resource.file_type == 'Vidéo' %}bg-blue-100 text-blue-800
+                            {% elif resource.file_type == 'Lien' %}bg-green-100 text-green-800
+                            {% elif resource.file_type == 'Présentation' %}bg-purple-100 text-purple-800
+                            {% elif resource.file_type == 'Exercice' %}bg-yellow-100 text-yellow-800
+                            {% else %}bg-red-100 text-red-800{% endif %}">
+                            {{ resource.file_type }}
+                        </span>
+                        <span class="px-2 py-1 ...">{{ resource.description | truncate(100, True, '...') }}</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="px-2 py-1 text-xs rounded-full status-published">Publié</span> <!-- À ajuster selon status si disponible -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-gray-50 px-4 sm:px-6 py-3 flex items-center justify-between border-t border-gray-200">
+            <span class="text-sm text-gray-500">{{ resource.created_at.strftime('%d/%m/%Y') }}</span>
+            <div class="flex space-x-3">
+                <a href="{{ url_for('static', filename='uploads/' + resource.file_url) }}" target="_blank" class="text-gray-500 hover:text-indigo-600" title="Voir">
+                    <i class="fas fa-eye"></i>
+                </a>
+               <a href="{{ url_for('resources.download', resource_id=resource.id) }}" class="text-gray-500 hover:text-blue-600" title="Télécharger">
+                    <i class="fas fa-download"></i>
+                </a>
+                <!-- <form id="delete-form-{{ resource.id }}" action="{{ url_for('resources.delete', resource_id=resource.id) }}" method="POST" style="display: none;">
+                </form> -->
+                <!-- <button type="button"
+                    onclick="confirmDelete('{{ resource.id }}', '{{ resource.title }}')"
+                    class="text-gray-500 hover:text-red-600"
+                    title="Supprimer">
+                    <i class="fas fa-trash-alt"></i>
+                </button> -->
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+    <!-- Pagination -->
+    <div class="bg-gray-50 px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+        <div class="flex-1 flex justify-between sm:hidden">
+            <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                Précédent
+            </a>
+            <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                Suivant
+            </a>
+        </div>
+        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+            <div>
+                <p class="text-sm text-gray-700">
+                    Affichage de <span class="font-medium">1</span> à <span class="font-medium">4</span> sur <span class="font-medium">12</span> ressources
+                </p>
+            </div>
+            <div>
+                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                    <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                        <span class="sr-only">Précédent</span>
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                    <a href="#" aria-current="page" class="z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                        1
+                    </a>
+                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                        2
+                    </a>
+                    <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                        3
+                    </a>
+                    <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                        <span class="sr-only">Suivant</span>
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

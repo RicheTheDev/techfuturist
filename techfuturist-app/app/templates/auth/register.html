@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inscription | TechFuturists</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#3ABFF0',
+            secondary: '#10B981',
+            dark: '#0D1E25',
+            light: '#F9FAFB',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .gradient-bg {
+      background: linear-gradient(135deg, #3ABFF0 0%, #10B981 100%);
+    }
+
+    .floating {
+      animation: floating 3s ease-in-out infinite;
+    }
+
+    @keyframes floating {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+  </style>
+</head>
+<body class="bg-light min-h-screen flex items-center justify-center p-6">
+  <div class="bg-white rounded-xl shadow-lg overflow-hidden w-full max-w-5xl md:flex">
+    
+    <!-- Illustration Section -->
+    <div class="hidden md:block md:w-1/2 gradient-bg p-8 flex flex-col justify-center">
+      <div class="text-center text-white mt-64">
+        <h3 class="text-2xl font-bold mb-4">Bienvenue chers TechFuturists</h3>
+        <p class="mb-6">Rejoignez notre communauté d'innovateurs et de visionnaires technologiques.</p>
+        <div class="floating">
+          <i class="fas fa-rocket text-5xl opacity-90"></i>
+        </div>
+      </div>      
+    </div>
+
+    <!-- Form Section -->
+    <div class="w-full md:w-1/2 p-8">
+      <div class="text-center mb-8">
+        <div class="gradient-bg p-3 rounded-full inline-block mb-4">
+          <i class="fas fa-user-plus text-white text-2xl"></i>
+        </div>
+        <h2 class="text-3xl font-bold text-dark mb-2">Créer un compte</h2>
+        <p class="text-gray-600">Rejoignez notre communauté d'innovateurs et de visionnaires technologiques</p>
+      </div>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="mb-4 p-3 rounded text-white bg-{{ 'red-500' if category == 'danger' else 'green-500' }}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <!-- Formulaire à deux colonnes -->
+      <form method="post" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Nom -->
+        <div class="col-span-1">
+          <label for="first_name" class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="fas fa-user text-gray-400"></i>
+            </div>
+            <input type="text" id="name" name="name" required
+              class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg 
+              focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary 
+              hover:border-primary transition-all"
+              placeholder="Votre nom">
+          </div>
+        </div>
+
+        <!-- Prénom -->
+        <div class="col-span-1">
+          <label for="last_name" class="block text-sm font-medium text-gray-700 mb-1">Prénom</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="fas fa-user text-gray-400"></i>
+            </div>
+            <input type="text" id="firstname" name="firstname" required
+              class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg 
+              focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary 
+              hover:border-primary transition-all"
+              placeholder="Votre prénom">
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="col-span-1 md:col-span-2">
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Adresse email</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="fas fa-envelope text-gray-400"></i>
+            </div>
+            <input type="email" id="email" name="email" required
+              class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg 
+              focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary 
+              hover:border-primary transition-all"
+              placeholder="votre@email.com">
+          </div>
+        </div>
+
+        <!-- Mot de passe -->
+        <div class="col-span-1">
+          <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Mot de passe</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="fas fa-lock text-gray-400"></i>
+            </div>
+            <input type="password" id="password" name="password" required
+              class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg 
+              focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary 
+              hover:border-primary transition-all"
+              placeholder="••••••••">
+          </div>
+          <p class="mt-1 text-xs text-gray-500">Minimum 8 caractères avec chiffres et lettres</p>
+        </div>
+
+        <!-- Confirmation -->
+        <div class="col-span-1">
+          <label for="Confirmpassword" class="block text-sm font-medium text-gray-700 mb-1">Confirmer le mot de passe</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <i class="fas fa-lock text-gray-400"></i>
+            </div>
+            <input type="password" id="Confirmpassword" name="Confirmpassword" required
+              class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg 
+              focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary 
+              hover:border-primary transition-all"
+              placeholder="••••••••">
+          </div>
+          <p class="mt-1 text-xs text-gray-500">Minimum 8 caractères avec chiffres et lettres</p>
+        </div>
+
+        <!-- Conditions -->
+        <div class="col-span-1 md:col-span-2 flex items-center">
+          <input id="terms" name="terms" type="checkbox" required
+            class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+          <label for="terms" class="ml-2 block text-sm text-gray-700">
+            J'accepte les <a href="#" class="text-primary hover:underline">conditions d'utilisation</a>
+          </label>
+        </div>
+
+        <!-- Bouton -->
+        <div class="col-span-1 md:col-span-2">
+          <button type="submit"
+            class="w-full bg-primary hover:bg-sky-500 text-white font-medium py-3 px-4 rounded-lg 
+            transition-all duration-300 shadow-md hover:shadow-lg flex justify-center items-center">
+            <i class="fas fa-user-plus mr-2"></i> S'inscrire
+          </button>
+        </div>
+      </form>
+
+      <!-- Lien vers connexion -->
+      <div class="mt-6 text-center">
+        <p class="text-sm text-gray-600">
+          Vous avez déjà un compte ?
+          <a href="{{ url_for('auth.login') }}" class="text-primary font-medium hover:underline">Connectez-vous</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

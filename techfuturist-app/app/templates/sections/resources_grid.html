@@ -1,0 +1,76 @@
+<!-- View Toggle -->
+<div class="flex justify-between items-center mb-4">
+    <h3 class="text-lg font-bold text-gray-800">Toutes les ressources</h3>
+    <div class="flex space-x-2">
+        <button id="listViewBtn" class="p-2 rounded-lg bg-indigo-100 text-indigo-600">
+            <i class="fas fa-list"></i>
+        </button>
+        <button id="gridViewBtn" class="p-2 rounded-lg bg-gray-200 text-gray-600">
+            <i class="fas fa-th-large"></i>
+        </button>
+    </div>
+</div>
+<!-- Resources Grid View -->
+<div id="gridView" class="resources-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6">
+    {% for resource in resources %}
+    <div class="resource-card bg-white rounded-xl shadow overflow-hidden border border-gray-200 transition duration-300 ease-in-out">
+        <div class="p-4 sm:p-6">
+            <div class="flex items-start space-x-4">
+                <div class="resource-type-icon 
+                    {% if resource.file_type == 'PDF' %}bg-indigo-100 text-indigo-600
+                    {% elif resource.file_type == 'Vidéo' %}bg-blue-100 text-blue-600
+                    {% elif resource.file_type == 'Lien' %}bg-green-100 text-green-600
+                    {% elif resource.file_type == 'Présentation' %}bg-purple-100 text-purple-600
+                    {% elif resource.file_type == 'Exercice' %}bg-yellow-100 text-yellow-600
+                    {% else %}bg-red-100 text-red-600{% endif %}">
+                    <i class="fas 
+                        {% if resource.file_type == 'PDF' %}fa-file-pdf
+                        {% elif resource.file_type == 'Vidéo' %}fa-video
+                        {% elif resource.file_type == 'Lien' %}fa-link
+                        {% elif resource.file_type == 'Présentation' %}fa-file-powerpoint
+                        {% elif resource.file_type == 'Exercice' %}fa-tasks
+                        {% else %}fa-file-code{% endif %} text-xl"></i>
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-lg font-bold text-gray-800 mb-1">{{ resource.title }}</h3>
+                    <p class="text-sm text-gray-500 mb-2">
+                      Par M. {{ resource.user.first_name or '' }} {{ resource.user.last_name or '' }}
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="px-2 py-1 rounded-full text-xs 
+                            {% if resource.file_type == 'PDF' %}bg-indigo-100 text-indigo-800
+                            {% elif resource.file_type == 'Vidéo' %}bg-blue-100 text-blue-800
+                            {% elif resource.file_type == 'Lien' %}bg-green-100 text-green-800
+                            {% elif resource.file_type == 'Présentation' %}bg-purple-100 text-purple-800
+                            {% elif resource.file_type == 'Exercice' %}bg-yellow-100 text-yellow-800
+                            {% else %}bg-red-100 text-red-800{% endif %}">
+                            {{ resource.file_type }}
+                        </span>
+                        <span class="px-2 py-1 ...">{{ resource.description | truncate(100, True, '...') }}</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="px-2 py-1 text-xs rounded-full status-published">Publié</span> <!-- À ajuster selon status si disponible -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-gray-50 px-4 sm:px-6 py-3 flex items-center justify-between border-t border-gray-200">
+            <span class="text-sm text-gray-500">{{ resource.created_at.strftime('%d/%m/%Y') }}</span>
+            <div class="flex space-x-3">
+                <a href="{{ url_for('static', filename='uploads/' + resource.file_url) }}" target="_blank" class="text-gray-500 hover:text-indigo-600" title="Voir">
+                    <i class="fas fa-eye"></i>
+                </a>
+                <a href="{{ url_for('resources.edit', resource_id=resource.id) }}" class="text-gray-500 hover:text-blue-600" title="Modifier">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <button type="button"
+                onclick="confirmDelete('{{ resource.id }}', '{{ resource.title }}')"
+                class="text-gray-500 hover:text-red-600"
+                title="Supprimer">
+                <i class="fas fa-trash-alt"></i>
+            </button>            
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

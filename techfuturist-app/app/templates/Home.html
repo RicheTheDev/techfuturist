@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechFuturists - Partage de ressources technologiques</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#10B981',
+                        dark: '#1F2937',
+                        light: '#F9FAFB',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #3B82F6 0%, #10B981 100%);
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: #3B82F6;
+            transition: width .3s;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-rocket text-primary text-2xl mr-2"></i>
+                        <span class="text-xl font-bold text-dark">TechFuturists</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#" class="nav-link text-gray-700 hover:text-primary px-3 py-2 text-sm font-medium">Accueil</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-primary px-3 py-2 text-sm font-medium">Ressources</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-primary px-3 py-2 text-sm font-medium">Événements</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-primary px-3 py-2 text-sm font-medium">Communauté</a>
+                    <a href="{{ url_for('auth.register') }}" class="bg-primary text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition duration-300">Connexion</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none" aria-controls="mobile-menu" aria-expanded="false" id="mobile-menu-button">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white shadow-lg">
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50">Accueil</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50">Ressources</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50">Événements</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50">Communauté</a>
+                <a href="#" class="block w-full text-center bg-primary text-white px-4 py-2 rounded-md text-base font-medium mt-2">Connexion</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
+            <div class="md:flex items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">Partagez et découvrez des ressources technologiques</h1>
+                    <p class="text-lg md:text-xl mb-8 opacity-90">Rejoignez notre communauté de passionnés de technologie et accédez à des ressources exclusives pour booster vos compétences.</p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="#" class="bg-white text-primary px-6 py-3 rounded-md text-lg font-semibold hover:bg-gray-100 transition duration-300 text-center">Explorer les ressources</a>
+                        <a href="{{ url_for('auth.register') }}" class="border-2 border-white text-white px-6 py-3 rounded-md text-lg font-semibold hover:bg-white hover:bg-opacity-10 transition duration-300 text-center">Rejoindre la communauté</a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Tech collaboration" class="rounded-xl shadow-2xl max-w-full h-auto md:max-w-md">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-dark mb-4">Pourquoi choisir TechFuturists ?</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">Notre plateforme offre des outils puissants pour faciliter l'apprentissage et le partage des connaissances technologiques.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-8 rounded-xl hover:shadow-lg transition duration-300">
+                    <div class="w-14 h-14 bg-primary bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-book-open text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-dark mb-3">Ressources variées</h3>
+                    <p class="text-gray-600">Accédez à des tutoriels, articles, vidéos et outils soigneusement sélectionnés par notre communauté d'experts.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-8 rounded-xl hover:shadow-lg transition duration-300">
+                    <div class="w-14 h-14 bg-secondary bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-users text-secondary text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-dark mb-3">Communauté active</h3>
+                    <p class="text-gray-600">Échangez avec d'autres passionnés, posez vos questions et partagez vos connaissances dans un environnement bienveillant.</p>
+                </div>
+                
+                <div class="bg-gray-50 p-8 rounded-xl hover:shadow-lg transition duration-300">
+                    <div class="w-14 h-14 bg-purple-500 bg-opacity-10 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-calendar-alt text-purple-500 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-dark mb-3">Événements exclusifs</h3>
+                    <p class="text-gray-600">Participez à des webinaires, ateliers et conférences avec des leaders d'opinion du monde technologique.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-12">
+                <h2 class="text-3xl font-bold text-dark">Ressources récentes</h2>
+                <a href="#" class="text-primary font-medium hover:underline flex items-center">
+                    Voir toutes les ressources <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+            
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Resource Card 1 -->
+                <div class="resource-card bg-white rounded-xl overflow-hidden shadow-md transition duration-300">
+                    <div class="h-48 bg-gradient-to-r from-blue-400 to-blue-600 flex items-center justify-center">
+                        <i class="fas fa-laptop-code text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">Développement</span>
+                            <span class="text-gray-500 text-sm ml-auto">2 jours</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-dark mb-2">Guide complet de React 18</h3>
+                        <p class="text-gray-600 mb-4">Découvrez toutes les nouvelles fonctionnalités de React 18 avec des exemples pratiques et des bonnes pratiques.</p>
+                        <div class="flex items-center">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Author" class="w-8 h-8 rounded-full mr-2">
+                            <span class="text-sm font-medium text-gray-700">Sarah Johnson</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Resource Card 2 -->
+                <div class="resource-card bg-white rounded-xl overflow-hidden shadow-md transition duration-300">
+                    <div class="h-48 bg-gradient-to-r from-green-400 to-green-600 flex items-center justify-center">
+                        <i class="fas fa-brain text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">IA</span>
+                            <span class="text-gray-500 text-sm ml-auto">1 semaine</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-dark mb-2">Introduction au Machine Learning</h3>
+                        <p class="text-gray-600 mb-4">Les fondamentaux du machine learning expliqués simplement avec des cas d'utilisation concrets.</p>
+                        <div class="flex items-center">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Author" class="w-8 h-8 rounded-full mr-2">
+                            <span class="text-sm font-medium text-gray-700">Michael Chen</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Resource Card 3 -->
+                <div class="resource-card bg-white rounded-xl overflow-hidden shadow-md transition duration-300">
+                    <div class="h-48 bg-gradient-to-r from-purple-400 to-purple-600 flex items-center justify-center">
+                        <i class="fas fa-shield-alt text-white text-6xl"></i>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded">Sécurité</span>
+                            <span class="text-gray-500 text-sm ml-auto">3 jours</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-dark mb-2">Bonnes pratiques de sécurité web</h3>
+                        <p class="text-gray-600 mb-4">Protégez vos applications web contre les vulnérabilités courantes avec ces techniques éprouvées.</p>
+                        <div class="flex items-center">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Author" class="w-8 h-8 rounded-full mr-2">
+                            <span class="text-sm font-medium text-gray-700">Emma Rodriguez</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-gradient-to-r from-primary to-secondary rounded-2xl p-8 md:p-12 text-white">
+                <div class="grid md:grid-cols-4 gap-8 text-center">
+                    <div class="p-4">
+                        <div class="text-4xl font-bold mb-2">1,200+</div>
+                        <div class="text-lg opacity-90">Ressources partagées</div>
+                    </div>
+                    <div class="p-4">
+                        <div class="text-4xl font-bold mb-2">850+</div>
+                        <div class="text-lg opacity-90">Membres actifs</div>
+                    </div>
+                    <div class="p-4">
+                        <div class="text-4xl font-bold mb-2">50+</div>
+                        <div class="text-lg opacity-90">Événements organisés</div>
+                    </div>
+                    <div class="p-4">
+                        <div class="text-4xl font-bold mb-2">95%</div>
+                        <div class="text-lg opacity-90">Satisfaction des membres</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-dark mb-4">Ce que disent nos membres</h2>
+                <p class="text-lg text-gray-600 max-w-3xl mx-auto">Découvrez comment TechFuturists a aidé des passionnés de technologie à progresser dans leur parcours.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-sm">
+                    <div class="flex items-center mb-6">
+                        <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Testimonial" class="w-16 h-16 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-semibold text-lg">David Martin</h4>
+                            <p class="text-gray-500">Développeur Full-Stack</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic">"Grâce aux ressources partagées sur TechFuturists, j'ai pu maîtriser des concepts avancés de React en quelques semaines seulement. La qualité des tutoriels et le support de la communauté sont exceptionnels."</p>
+                    <div class="mt-4 text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-8 rounded-xl shadow-sm">
+                    <div class="flex items-center mb-6">
+                        <img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Testimonial" class="w-16 h-16 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-semibold text-lg">Sophie Lambert</h4>
+                            <p class="text-gray-500">Data Scientist</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic">"La plateforme m'a permis de découvrir des outils d'IA que je ne connaissais pas. Les webinaires avec des experts du secteur sont particulièrement enrichissants. Je recommande vivement !"</p>
+                    <div class="mt-4 text-yellow-400">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-dark rounded-2xl p-12 text-center">
+                <h2 class="text-3xl font-bold text-white mb-6">Prêt à rejoindre l'aventure TechFuturists ?</h2>
+                <p class="text-gray-300 mb-8 text-lg max-w-3xl mx-auto">Inscrivez-vous dès maintenant pour accéder à toutes nos ressources et faire partie d'une communauté dynamique de passionnés de technologie.</p>
+                <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="{{ url_for('auth.register') }}" class="bg-primary text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-300">S'inscrire gratuitement</a>
+                    <a href="#" class="bg-transparent border-2 border-gray-400 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-800 transition duration-300">En savoir plus</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-gray-300 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-white text-lg font-semibold mb-4">TechFuturists</h3>
+                    <p class="mb-4">La plateforme de référence pour le partage de ressources technologiques entre passionnés.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-github text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-discord text-xl"></i></a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-white text-lg font-semibold mb-4">Navigation</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition duration-300">Accueil</a></li>
+                        <li><a href="#" class="hover:text-white transition duration-300">Ressources</a></li>
+                        <li><a href="#" class="hover:text-white transition duration-300">Événements</a></li>
+                        <li><a href="#" class="hover:text-white transition duration-300">Communauté</a></li>
+                        <li><a href="#" class="hover:text-white transition duration-300">À propos</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-white text-lg font-semibold mb-4">Ressources</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition duration-300">Tutoriels</a></li>
+                        <li><a href="#" class="hover:text-white transition duration-300">Articles</a></li>
+                        <li><a href="#" class="hover:text-white transition duration-300">Outils</a></li>
+                        <li><a href="#" class="hover:text-white transition duration-300">Bibliothèque</a></li>
+                        <li><a href="#" class="hover:text-white transition duration-300">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-white text-lg font-semibold mb-4">Contact</h3>
+                    <ul class="space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mt-1 mr-2"></i>
+                            <span>contact@techfuturists.com</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-2"></i>
+                            <span>123 Rue Technologique<br>75000 Paris, France</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p>© 2023 TechFuturists. Tous droits réservés.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-white transition duration-300">Confidentialité</a>
+                    <a href="#" class="hover:text-white transition duration-300">Conditions</a>
+                    <a href="#" class="hover:text-white transition duration-300">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
